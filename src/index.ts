@@ -1,5 +1,5 @@
 import core from "@actions/core";
 
-async function run() {
+export async function run() {
   core.info("Hello, world!");
 }

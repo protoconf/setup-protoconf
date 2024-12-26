@@ -2,7 +2,7 @@ import core from "@actions/core";
 import tc from "@actions/tool-cache";
 import os from "os";
 
-async function run() {
+export async function run() {
   try {
     // https://github.com/protoconf/protoconf/releases/download/v0.2.0-alpha1/protoconf_0.2.0-alpha1_darwin_amd64.tar.gz
     const version = core.getInput("version");

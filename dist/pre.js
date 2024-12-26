@@ -7,6 +7,10 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -23,6 +27,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
@@ -89,11 +94,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.issue = exports2.issueCommand = void 0;
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os.EOL);
+      process.stdout.write(cmd.toString() + os2.EOL);
     }
     exports2.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -177,7 +182,7 @@ var require_file_command = __commonJS({
     exports2.prepareKeyValueMessage = exports2.issueFileCommand = void 0;
     var crypto = __importStar(require("crypto"));
     var fs = __importStar(require("fs"));
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
       const filePath = process.env[`GITHUB_${command}`];
@@ -187,7 +192,7 @@ var require_file_command = __commonJS({
       if (!fs.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
+      fs.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os2.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -201,7 +206,7 @@ var require_file_command = __commonJS({
       if (convertedValue.includes(delimiter)) {
         throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
       }
-      return `${key}<<${delimiter}${os.EOL}${convertedValue}${os.EOL}${delimiter}`;
+      return `${key}<<${delimiter}${os2.EOL}${convertedValue}${os2.EOL}${delimiter}`;
     }
     exports2.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -18919,7 +18924,7 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.argStringToArray = exports2.ToolRunner = void 0;
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
     var path = __importStar(require("path"));
@@ -18974,12 +18979,12 @@ var require_toolrunner = __commonJS({
       _processLineBuffer(data, strBuffer, onLine) {
         try {
           let s = strBuffer + data.toString();
-          let n = s.indexOf(os.EOL);
+          let n = s.indexOf(os2.EOL);
           while (n > -1) {
             const line = s.substring(0, n);
             onLine(line);
-            s = s.substring(n + os.EOL.length);
-            n = s.indexOf(os.EOL);
+            s = s.substring(n + os2.EOL.length);
+            n = s.indexOf(os2.EOL);
           }
           return s;
         } catch (err) {
@@ -19148,7 +19153,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os2.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -19636,7 +19641,7 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var path = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -19704,7 +19709,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
-      process.stdout.write(os.EOL);
+      process.stdout.write(os2.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports2.setOutput = setOutput;
@@ -19738,7 +19743,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.notice = notice;
     function info(message) {
-      process.stdout.write(message + os.EOL);
+      process.stdout.write(message + os2.EOL);
     }
     exports2.info = info;
     function startGroup(name) {
@@ -21016,12 +21021,12 @@ var require_manifest = __commonJS({
     exports2._readLinuxVersionFile = exports2._getOsVersion = exports2._findMatch = void 0;
     var semver = __importStar(require_semver());
     var core_1 = require_core();
-    var os = require("os");
+    var os2 = require("os");
     var cp = require("child_process");
     var fs = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
-        const platFilter = os.platform();
+        const platFilter = os2.platform();
         let result;
         let match;
         let file;
@@ -21058,7 +21063,7 @@ var require_manifest = __commonJS({
     }
     exports2._findMatch = _findMatch;
     function _getOsVersion() {
-      const plat = os.platform();
+      const plat = os2.platform();
       let version = "";
       if (plat === "darwin") {
         version = cp.execSync("sw_vers -productVersion").toString();
@@ -21332,7 +21337,7 @@ var require_tool_cache = __commonJS({
     var io = __importStar(require_io());
     var fs = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
-    var os = __importStar(require("os"));
+    var os2 = __importStar(require("os"));
     var path = __importStar(require("path"));
     var httpm = __importStar(require_lib());
     var semver = __importStar(require_semver());
@@ -21611,7 +21616,7 @@ var require_tool_cache = __commonJS({
     function cacheDir(sourceDir, tool, version, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version = semver.clean(version) || version;
-        arch = arch || os.arch();
+        arch = arch || os2.arch();
         core2.debug(`Caching tool ${tool} ${version} ${arch}`);
         core2.debug(`source dir: ${sourceDir}`);
         if (!fs.statSync(sourceDir).isDirectory()) {
@@ -21630,7 +21635,7 @@ var require_tool_cache = __commonJS({
     function cacheFile(sourceFile, targetFile, tool, version, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version = semver.clean(version) || version;
-        arch = arch || os.arch();
+        arch = arch || os2.arch();
         core2.debug(`Caching tool ${tool} ${version} ${arch}`);
         core2.debug(`source file: ${sourceFile}`);
         if (!fs.statSync(sourceFile).isFile()) {
@@ -21652,7 +21657,7 @@ var require_tool_cache = __commonJS({
       if (!versionSpec) {
         throw new Error("versionSpec parameter is required");
       }
-      arch = arch || os.arch();
+      arch = arch || os2.arch();
       if (!isExplicitVersion(versionSpec)) {
         const localVersions = findAllVersions(toolName, arch);
         const match = evaluateVersions(localVersions, versionSpec);
@@ -21675,7 +21680,7 @@ var require_tool_cache = __commonJS({
     exports2.find = find;
     function findAllVersions(toolName, arch) {
       const versions = [];
-      arch = arch || os.arch();
+      arch = arch || os2.arch();
       const toolPath = path.join(_getCacheDirectory(), toolName);
       if (fs.existsSync(toolPath)) {
         const children = fs.readdirSync(toolPath);
@@ -21726,7 +21731,7 @@ var require_tool_cache = __commonJS({
       });
     }
     exports2.getManifestFromRepo = getManifestFromRepo;
-    function findFromManifest(versionSpec, stable, manifest, archFilter = os.arch()) {
+    function findFromManifest(versionSpec, stable, manifest, archFilter = os2.arch()) {
       return __awaiter(this, void 0, void 0, function* () {
         const match = yield mm._findMatch(versionSpec, stable, manifest, archFilter);
         return match;
@@ -21813,8 +21818,32 @@ var require_tool_cache = __commonJS({
 });
 
 // src/pre.ts
+var pre_exports = {};
+__export(pre_exports, {
+  run: () => run
+});
+module.exports = __toCommonJS(pre_exports);
 var import_core = __toESM(require_core());
 var import_tool_cache = __toESM(require_tool_cache());
+var import_os = __toESM(require("os"));
+async function run() {
+  try {
+    const version = import_core.default.getInput("version");
+    const platform = import_os.default.platform;
+    const arch = import_os.default.arch;
+    const url = `https://github.com/protoconf/protoconf/releases/download/v${version}/protoconf_${version}_${platform}_${arch}.tar.gz`;
+    const pathToGzip = await import_tool_cache.default.downloadTool(url);
+    const pathToTar = await import_tool_cache.default.extractTar(pathToGzip);
+    const pathToBin = `${pathToTar}/protoconf`;
+    import_core.default.addPath(pathToBin);
+  } catch (error) {
+    import_core.default.setFailed(error.message);
+  }
+}
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  run
+});
 /*! Bundled license information:
 
 undici/lib/fetch/body.js:
