@@ -94,11 +94,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.issue = exports2.issueCommand = void 0;
-    var os2 = __importStar(require("os"));
+    var os = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os2.EOL);
+      process.stdout.write(cmd.toString() + os.EOL);
     }
     exports2.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -182,7 +182,7 @@ var require_file_command = __commonJS({
     exports2.prepareKeyValueMessage = exports2.issueFileCommand = void 0;
     var crypto = __importStar(require("crypto"));
     var fs = __importStar(require("fs"));
-    var os2 = __importStar(require("os"));
+    var os = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
       const filePath = process.env[`GITHUB_${command}`];
@@ -192,7 +192,7 @@ var require_file_command = __commonJS({
       if (!fs.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os2.EOL}`, {
+      fs.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -206,7 +206,7 @@ var require_file_command = __commonJS({
       if (convertedValue.includes(delimiter)) {
         throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
       }
-      return `${key}<<${delimiter}${os2.EOL}${convertedValue}${os2.EOL}${delimiter}`;
+      return `${key}<<${delimiter}${os.EOL}${convertedValue}${os.EOL}${delimiter}`;
     }
     exports2.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -18924,7 +18924,7 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.argStringToArray = exports2.ToolRunner = void 0;
-    var os2 = __importStar(require("os"));
+    var os = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
     var path = __importStar(require("path"));
@@ -18979,12 +18979,12 @@ var require_toolrunner = __commonJS({
       _processLineBuffer(data, strBuffer, onLine) {
         try {
           let s = strBuffer + data.toString();
-          let n = s.indexOf(os2.EOL);
+          let n = s.indexOf(os.EOL);
           while (n > -1) {
             const line = s.substring(0, n);
             onLine(line);
-            s = s.substring(n + os2.EOL.length);
-            n = s.indexOf(os2.EOL);
+            s = s.substring(n + os.EOL.length);
+            n = s.indexOf(os.EOL);
           }
           return s;
         } catch (err) {
@@ -19153,7 +19153,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os2.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -19641,7 +19641,7 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os2 = __importStar(require("os"));
+    var os = __importStar(require("os"));
     var path = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -19709,7 +19709,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
-      process.stdout.write(os2.EOL);
+      process.stdout.write(os.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports2.setOutput = setOutput;
@@ -19743,7 +19743,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.notice = notice;
     function info2(message) {
-      process.stdout.write(message + os2.EOL);
+      process.stdout.write(message + os.EOL);
     }
     exports2.info = info2;
     function startGroup(name) {
@@ -21021,12 +21021,12 @@ var require_manifest = __commonJS({
     exports2._readLinuxVersionFile = exports2._getOsVersion = exports2._findMatch = void 0;
     var semver = __importStar(require_semver());
     var core_1 = require_core();
-    var os2 = require("os");
+    var os = require("os");
     var cp = require("child_process");
     var fs = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
-        const platFilter = os2.platform();
+        const platFilter = os.platform();
         let result;
         let match;
         let file;
@@ -21063,7 +21063,7 @@ var require_manifest = __commonJS({
     }
     exports2._findMatch = _findMatch;
     function _getOsVersion() {
-      const plat = os2.platform();
+      const plat = os.platform();
       let version = "";
       if (plat === "darwin") {
         version = cp.execSync("sw_vers -productVersion").toString();
@@ -21337,7 +21337,7 @@ var require_tool_cache = __commonJS({
     var io = __importStar(require_io());
     var fs = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
-    var os2 = __importStar(require("os"));
+    var os = __importStar(require("os"));
     var path = __importStar(require("path"));
     var httpm = __importStar(require_lib());
     var semver = __importStar(require_semver());
@@ -21613,63 +21613,63 @@ var require_tool_cache = __commonJS({
         yield exec_1.exec(`"${unzipPath}"`, args, { cwd: dest });
       });
     }
-    function cacheDir(sourceDir, tool, version, arch2) {
+    function cacheDir(sourceDir, tool, version, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version = semver.clean(version) || version;
-        arch2 = arch2 || os2.arch();
-        core2.debug(`Caching tool ${tool} ${version} ${arch2}`);
+        arch = arch || os.arch();
+        core2.debug(`Caching tool ${tool} ${version} ${arch}`);
         core2.debug(`source dir: ${sourceDir}`);
         if (!fs.statSync(sourceDir).isDirectory()) {
           throw new Error("sourceDir is not a directory");
         }
-        const destPath = yield _createToolPath(tool, version, arch2);
+        const destPath = yield _createToolPath(tool, version, arch);
         for (const itemName of fs.readdirSync(sourceDir)) {
           const s = path.join(sourceDir, itemName);
           yield io.cp(s, destPath, { recursive: true });
         }
-        _completeToolPath(tool, version, arch2);
+        _completeToolPath(tool, version, arch);
         return destPath;
       });
     }
     exports2.cacheDir = cacheDir;
-    function cacheFile(sourceFile, targetFile, tool, version, arch2) {
+    function cacheFile(sourceFile, targetFile, tool, version, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version = semver.clean(version) || version;
-        arch2 = arch2 || os2.arch();
-        core2.debug(`Caching tool ${tool} ${version} ${arch2}`);
+        arch = arch || os.arch();
+        core2.debug(`Caching tool ${tool} ${version} ${arch}`);
         core2.debug(`source file: ${sourceFile}`);
         if (!fs.statSync(sourceFile).isFile()) {
           throw new Error("sourceFile is not a file");
         }
-        const destFolder = yield _createToolPath(tool, version, arch2);
+        const destFolder = yield _createToolPath(tool, version, arch);
         const destPath = path.join(destFolder, targetFile);
         core2.debug(`destination file ${destPath}`);
         yield io.cp(sourceFile, destPath);
-        _completeToolPath(tool, version, arch2);
+        _completeToolPath(tool, version, arch);
         return destFolder;
       });
     }
     exports2.cacheFile = cacheFile;
-    function find(toolName, versionSpec, arch2) {
+    function find(toolName, versionSpec, arch) {
       if (!toolName) {
         throw new Error("toolName parameter is required");
       }
       if (!versionSpec) {
         throw new Error("versionSpec parameter is required");
       }
-      arch2 = arch2 || os2.arch();
+      arch = arch || os.arch();
       if (!isExplicitVersion(versionSpec)) {
-        const localVersions = findAllVersions(toolName, arch2);
+        const localVersions = findAllVersions(toolName, arch);
         const match = evaluateVersions(localVersions, versionSpec);
         versionSpec = match;
       }
       let toolPath = "";
       if (versionSpec) {
         versionSpec = semver.clean(versionSpec) || "";
-        const cachePath = path.join(_getCacheDirectory(), toolName, versionSpec, arch2);
+        const cachePath = path.join(_getCacheDirectory(), toolName, versionSpec, arch);
         core2.debug(`checking cache: ${cachePath}`);
         if (fs.existsSync(cachePath) && fs.existsSync(`${cachePath}.complete`)) {
-          core2.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch2}`);
+          core2.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
           toolPath = cachePath;
         } else {
           core2.debug("not found");
@@ -21678,15 +21678,15 @@ var require_tool_cache = __commonJS({
       return toolPath;
     }
     exports2.find = find;
-    function findAllVersions(toolName, arch2) {
+    function findAllVersions(toolName, arch) {
       const versions = [];
-      arch2 = arch2 || os2.arch();
+      arch = arch || os.arch();
       const toolPath = path.join(_getCacheDirectory(), toolName);
       if (fs.existsSync(toolPath)) {
         const children = fs.readdirSync(toolPath);
         for (const child of children) {
           if (isExplicitVersion(child)) {
-            const fullPath = path.join(toolPath, child, arch2 || "");
+            const fullPath = path.join(toolPath, child, arch || "");
             if (fs.existsSync(fullPath) && fs.existsSync(`${fullPath}.complete`)) {
               versions.push(child);
             }
@@ -21731,7 +21731,7 @@ var require_tool_cache = __commonJS({
       });
     }
     exports2.getManifestFromRepo = getManifestFromRepo;
-    function findFromManifest(versionSpec, stable, manifest, archFilter = os2.arch()) {
+    function findFromManifest(versionSpec, stable, manifest, archFilter = os.arch()) {
       return __awaiter(this, void 0, void 0, function* () {
         const match = yield mm._findMatch(versionSpec, stable, manifest, archFilter);
         return match;
@@ -21747,9 +21747,9 @@ var require_tool_cache = __commonJS({
         return dest;
       });
     }
-    function _createToolPath(tool, version, arch2) {
+    function _createToolPath(tool, version, arch) {
       return __awaiter(this, void 0, void 0, function* () {
-        const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch2 || "");
+        const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch || "");
         core2.debug(`destination ${folderPath}`);
         const markerPath = `${folderPath}.complete`;
         yield io.rmRF(folderPath);
@@ -21758,8 +21758,8 @@ var require_tool_cache = __commonJS({
         return folderPath;
       });
     }
-    function _completeToolPath(tool, version, arch2) {
-      const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch2 || "");
+    function _completeToolPath(tool, version, arch) {
+      const folderPath = path.join(_getCacheDirectory(), tool, semver.clean(version) || version, arch || "");
       const markerPath = `${folderPath}.complete`;
       fs.writeFileSync(markerPath, "");
       core2.debug("finished caching tool");
@@ -21825,13 +21825,17 @@ __export(pre_exports, {
 module.exports = __toCommonJS(pre_exports);
 var core = __toESM(require_core());
 var tc = __toESM(require_tool_cache());
-var os = __toESM(require("os"));
 async function run() {
   try {
     const version = core.getInput("version");
-    const platform2 = os.platform;
-    const arch2 = os.arch;
-    const url = `https://github.com/protoconf/protoconf/releases/download/v${version}/protoconf_${version}_${platform2}_${arch2}.tar.gz`;
+    const details = await core.platform.getDetails();
+    const platform2 = details.platform;
+    const arch = details.arch;
+    core.info(`Platform:`);
+    core.info(`  OS: ${details.name}`);
+    core.info(`  Arch: ${details.arch}`);
+    core.info(JSON.stringify(details));
+    const url = `https://github.com/protoconf/protoconf/releases/download/v${version}/protoconf_${version}_${platform2}_${arch}.tar.gz`;
     core.info(`Downloading ${url}`);
     const pathToGzip = await tc.downloadTool(url);
     const pathToTar = await tc.extractTar(pathToGzip);

@@ -6,8 +6,14 @@ export async function run() {
   try {
     // https://github.com/protoconf/protoconf/releases/download/v0.2.0-alpha1/protoconf_0.2.0-alpha1_darwin_amd64.tar.gz
     const version = core.getInput("version");
-    const platform = os.platform;
-    const arch = os.arch;
+    const details = await core.platform.getDetails();
+    const platform = details.platform;
+    const arch = details.arch;
+    core.info(`Platform:`);
+    core.info(`  OS: ${details.name}`);
+    core.info(`  Arch: ${details.arch}`);
+    core.info(JSON.stringify(details));
+
     const url = `https://github.com/protoconf/protoconf/releases/download/v${version}/protoconf_${version}_${platform}_${arch}.tar.gz`;
     core.info(`Downloading ${url}`);
     const pathToGzip = await tc.downloadTool(url);
