@@ -9,6 +9,7 @@ export async function run() {
     const platform = os.platform;
     const arch = os.arch;
     const url = `https://github.com/protoconf/protoconf/releases/download/v${version}/protoconf_${version}_${platform}_${arch}.tar.gz`;
+    core.info(`Downloading ${url}`);
     const pathToGzip = await tc.downloadTool(url);
     const pathToTar = await tc.extractTar(pathToGzip);
     const pathToBin = `${pathToTar}/protoconf`;
