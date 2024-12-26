@@ -18679,7 +18679,7 @@ var require_io = __commonJS({
     var assert_1 = require("assert");
     var path = __importStar(require("path"));
     var ioUtil = __importStar(require_io_util());
-    function cp(source, dest, options = {}) {
+    function cp2(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         const { force, recursive, copySourceDirectory } = readCopyOptions(options);
         const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
@@ -18705,7 +18705,7 @@ var require_io = __commonJS({
         }
       });
     }
-    exports2.cp = cp;
+    exports2.cp = cp2;
     function mv(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         if (yield ioUtil.exists(dest)) {
@@ -19163,10 +19163,10 @@ var require_toolrunner = __commonJS({
               return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
             }
             const fileName = this._getSpawnFileName();
-            const cp = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+            const cp2 = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
             let stdbuffer = "";
-            if (cp.stdout) {
-              cp.stdout.on("data", (data) => {
+            if (cp2.stdout) {
+              cp2.stdout.on("data", (data) => {
                 if (this.options.listeners && this.options.listeners.stdout) {
                   this.options.listeners.stdout(data);
                 }
@@ -19181,8 +19181,8 @@ var require_toolrunner = __commonJS({
               });
             }
             let errbuffer = "";
-            if (cp.stderr) {
-              cp.stderr.on("data", (data) => {
+            if (cp2.stderr) {
+              cp2.stderr.on("data", (data) => {
                 state.processStderr = true;
                 if (this.options.listeners && this.options.listeners.stderr) {
                   this.options.listeners.stderr(data);
@@ -19198,19 +19198,19 @@ var require_toolrunner = __commonJS({
                 });
               });
             }
-            cp.on("error", (err) => {
+            cp2.on("error", (err) => {
               state.processError = err.message;
               state.processExited = true;
               state.processClosed = true;
               state.CheckComplete();
             });
-            cp.on("exit", (code) => {
+            cp2.on("exit", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            cp.on("close", (code) => {
+            cp2.on("close", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               state.processClosed = true;
@@ -19224,7 +19224,7 @@ var require_toolrunner = __commonJS({
               if (errbuffer.length > 0) {
                 this.emit("errline", errbuffer);
               }
-              cp.removeAllListeners();
+              cp2.removeAllListeners();
               if (error) {
                 reject(error);
               } else {
@@ -19232,10 +19232,10 @@ var require_toolrunner = __commonJS({
               }
             });
             if (this.options.input) {
-              if (!cp.stdin) {
+              if (!cp2.stdin) {
                 throw new Error("child process missing stdin");
               }
-              cp.stdin.end(this.options.input);
+              cp2.stdin.end(this.options.input);
             }
           }));
         });
@@ -19673,7 +19673,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path.delimiter}${process.env["PATH"]}`;
     }
     exports2.addPath = addPath;
-    function getInput(name, options) {
+    function getInput2(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -19683,9 +19683,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports2.getInput = getInput;
+    exports2.getInput = getInput2;
     function getMultilineInput(name, options) {
-      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -19695,7 +19695,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput(name, options);
+      const val = getInput2(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -19814,8 +19814,15 @@ __export(index_exports, {
 });
 module.exports = __toCommonJS(index_exports);
 var core = __toESM(require_core());
+var import_child_process = __toESM(require("child_process"));
 async function run() {
-  core.info("Hello, world!");
+  const protoconfRoot = core.getInput("protoconf_root");
+  core.info(`protoconf_root: ${protoconfRoot}`);
+  const shouldCompile = core.getInput("compile").toLowerCase() === "true";
+  if (shouldCompile) {
+    core.info("Compiling protoconf...");
+    import_child_process.default.execSync(`protoconf compile ${protoconfRoot}`, {});
+  }
 }
 run();
 // Annotate the CommonJS export names for ESM import in node:

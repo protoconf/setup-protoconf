@@ -1,6 +1,5 @@
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
-import * as os from "os";
 
 export async function run() {
   try {
