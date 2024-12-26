@@ -14,7 +14,7 @@ export async function run() {
     const pathToBin = `${pathToTar}/protoconf`;
     core.addPath(pathToBin);
   } catch (error) {
-    core.setFailed(error.message);
+    core.error(error.message);
   }
 }
 

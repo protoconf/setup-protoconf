@@ -21837,7 +21837,7 @@ async function run() {
     const pathToBin = `${pathToTar}/protoconf`;
     import_core.default.addPath(pathToBin);
   } catch (error) {
-    import_core.default.setFailed(error.message);
+    import_core.default.error(error.message);
   }
 }
 run();
