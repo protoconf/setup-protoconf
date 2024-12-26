@@ -19817,6 +19817,7 @@ var import_core = __toESM(require_core());
 async function run() {
   import_core.default.info("Hello, world!");
 }
+run();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   run
