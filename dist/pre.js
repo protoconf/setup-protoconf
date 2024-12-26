@@ -21842,8 +21842,7 @@ async function run() {
     core.info(`Downloading ${url}`);
     const pathToGzip = await tc.downloadTool(url);
     const pathToTar = await tc.extractTar(pathToGzip);
-    const pathToBin = `${pathToTar}/protoconf`;
-    core.addPath(pathToBin);
+    core.addPath(pathToTar);
   } catch (error2) {
     core.error(error2.message);
   }
