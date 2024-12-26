@@ -1,0 +1,19 @@
+name: "Setup Protoconf"
+description: "Setup Protoconf"
+inputs:
+  protoconf_root:
+    description: "Root directory of Protoconf"
+    required: false
+    default: "."
+  compile:
+    description: "Compile Protoconf"
+    required: false
+    default: "false"
+  version:
+    description: "Protoconf version"
+    required: false
+    default: "0.2.0-rc1"
+runs:
+  using: "node20"
+  main: "dist/index.js"
+  pre: "dist/pre.js"

@@ -1,0 +1,21 @@
+{
+  "name": "setup-protoconf",
+  "version": "1.0.0",
+  "description": "Install protoconf on github actions",
+  "main": "index.js",
+  "repository": "git@github.com:protoconf/setup-protoconf.git",
+  "author": "Shahar Mintz <smintz@protoconf.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "esbuild src/*.ts --bundle --platform=node --outdir=dist/"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/tool-cache": "^2.0.1",
+    "os": "^0.1.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}
