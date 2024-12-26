@@ -12,7 +12,7 @@ inputs:
   version:
     description: "Protoconf version"
     required: false
-    default: "0.2.0-rc1"
+    default: "0.2.0-alpha1"
 runs:
   using: "node20"
   main: "dist/index.js"
