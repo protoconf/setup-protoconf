@@ -8,7 +8,10 @@ export async function run() {
     const version = core.getInput("version");
     const details = await core.platform.getDetails();
     const platform = details.platform;
-    const arch = details.arch;
+    let arch = details.arch;
+    if (details.arch === "x64") {
+      arch = "amd64";
+    }
     core.info(`Platform:`);
     core.info(`  OS: ${details.name}`);
     core.info(`  Arch: ${details.arch}`);
